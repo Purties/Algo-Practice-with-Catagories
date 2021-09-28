@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 29. 两数相除
+        给定两个整数，被除数 dividend 和除数 divisor。将两数相除，要求不使用乘法、除法和 mod 运算符。
+        返回被除数 dividend 除以除数 divisor 得到的商。
+
+        整数除法的结果应当截去（truncate）其小数部分，例如：truncate(8.345) = 8 以及 truncate(-2.7335) = -2 
+
+        示例 1:
+        输入: dividend = 10, divisor = 3
+        输出: 3
+        解释: 10 / 3 = truncate(3.33333..) = truncate(3) = 3
+        示例 2:
+        输入: dividend = 7, divisor = -3
+        输出: -2
+        解释: 7 / -3 = truncate(-2.33333..) = -2
+        提示：
+        被除数和除数均为 32 位有符号整数。
+        除数不为 0。
+        假设我们的环境只能存储 32 位有符号整数，其数值范围是[−231, 231 − 1]。本题中，如果除法结果溢出，则返回 231 − 1。 */
+
+        // 对于数学问题我们需要考虑: 
+        // 1 正负号
+        // 2 越界
+        // 3 分子/分母为0 分子小于分母
+        // 4 正常情况
+
+        /**
+        * @param {number} dividend 分子
+        * @param {number} divisor  分母
+        * @return {number} 
+        * 
+        * Dichotomy 二分法
+        * 
+        * time : O()
+        * space : O()
+        */
+
+        var a = 7;
+        var b = -3;
+        console.log(divide(a, b));
+        
+        var divide = function (dividend, divisor) {
+            // 正负号
+            var sign = 1;
+            // 分子分母不同号，则改变sign
+            if ((dividend > 0 && divisor < 0) || (dividend < 0 || divisor > 0)) sign = -1;
+            // 取绝对值
+            var absDivident = Math.abs(dividend);
+            var absDivisor = Math.abs(divisor);
+            // 分子小于分母 或者分子为0则返回0 
+            if (absDivident < absDivisor || absDivident == 0) return 0;
+
+            // 调用函数
+            var res = divideDichotomy(absDivident, absDivisor);
+
+            // 考虑边界问题
+            if (res > 2147483647) return 2147483647;
+            if (res < -2147483648) return -2147483648;
+            return res;
+        };
+
+        // 递归
+        /**
+        * @param {number} dividend 被除数(非负数)
+        * @param {number} originalDivisor 最初的除数(非负数)
+        * @param {number} res 上一个部分得到的结果
+        */
+        var divideDichotomy = function (dividend, originalDivisor) {
+            if (dividend < divisor) return res;
+            var multiple = 1;
+            // 保存当前分母
+            var divisor = originalDivisor;
+            // 当分母翻倍还比分子小时
+            while ((divisor + divisor) < dividend) {
+                // 保存这个翻倍的值
+                divisor += divisor;
+                // 保存倍数
+                multiple += multiple;
+            }
+            return multiple + divide(dividend - divisor, originalDivisor);
+        }
+    </script>
+</body>
+
+</html>

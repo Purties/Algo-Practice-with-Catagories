@@ -5,5 +5,5 @@
 
 This repo is only for personal use.
 Ideas refer to an algo tutorial purchased by this repository owner or leetocde.
-Code written in Javascipt. Thus the tutorial was written in Java.
-In some special cases where Java syntax does not apply, I adjusted it to fit Javascript. I cannot guarantee it's 100% correct.
+The tutorial was written in Java. Thus my own code was written in Javascipt. 
+In some special cases where Java syntax does not apply, I adjusted it to fit. Please think over before use.
