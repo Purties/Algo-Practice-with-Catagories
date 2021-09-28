@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+        给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。
+        输入: [2,2,1]
+        输出: 1 
+        输入: [4,1,2,1,2]
+        输出: 4
+        */
+
+        // 依旧用位运算来处理
+        // 对数字用异或运算，找到只出现一次的数字
+        // time : O(n)
+        // space : O(n)
+        arr = [1, 2, 1, 2, 5, 7, 7, 5, 7, 3, 7];
+        function singleNumber(nums) {
+            var result = 0;
+            nums.forEach(function (item, index) {
+                result ^= item;
+            })
+            return result;
+        }
+
+        console.log(singleNumber(arr));
+    </script>
+</body>
+
+</html>

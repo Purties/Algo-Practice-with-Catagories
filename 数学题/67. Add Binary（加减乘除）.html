@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 67. 二进制求和
+        给你两个二进制字符串，返回它们的和（用二进制表示）。
+
+        输入为 非空 字符串且只包含数字 1 和 0。
+        输入: a = "11", b = "1"
+        输出: "100"
+        输入: a = "1010", b = "1011"
+        输出: "10101" */
+
+
+        /**
+        * @param {string} a
+        * @param {string} b
+        * @return {string}
+        * time : O(n)
+        * space : O(n)
+        */
+
+        var addBinary = function (a, b) {
+            // String保存结果
+            var res = '';
+            // 个位数的index
+            var i = a.length - 1;
+            var j = b.length - 1;
+            // 求和时的carry
+            var carry = 0;
+            var sum = 0;
+            // 只要i和j没有到数的最后一位
+            while (i >= 0 || j >= 0) {
+                sum = carry;
+                if (i >= 0) {
+                    // 进行加法运算
+                    sum += parseInt(a[i]);
+                    i--;
+                }
+                if (j >= 0) {
+                    sum += parseInt(b[j]);
+                    j--;
+                }
+                // sum = 3 carry = 1 result = 1
+                // sum = 2 carry = 1 result = 0
+                // sum = 1 carry = 0 result = 1
+                // sum = 0 carry = 0 result = 0
+                res += sum % 2;
+                carry = Math.floor(sum / 2);
+            }
+            if (carry != 0) res += carry;
+            // string ==> array 
+            // array.split 
+            // array ==> string
+            return res.split('').reverse().join('');
+        };
+    </script>
+</body>
+
+</html>

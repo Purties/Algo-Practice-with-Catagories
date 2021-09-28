@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*        编写一个函数，输入是一个无符号整数（以二进制串的形式），返回其二进制表达式中数字位数为 '1' 的个数（也被称为汉明重量）。
+
+       示例 1：
+       
+               输入：00000000000000000000000000001011
+               输出：3
+               解释：输入的二进制串 00000000000000000000000000001011 中，共有三位为 '1'。 */
+
+        /**
+        * @param {number} n - a positive integer
+        * @return {number}
+        * time : O(n)  
+        * space : O(1)
+        */
+        var hammingWeight = function (n) {
+            // 举例：
+            // 数字11
+            // 001011
+            // 000001 二进制的11和1进行与运算
+            //  &&
+            // 000001 如果结果为1 则原数字二进制中最后一位为1 否则为0 count++
+
+            // 再将11向左移一位
+            // 000101
+            // 000001 在和1进行与运算
+
+            // 利用n & (n-1) 的方法，，可以消除二进制数字中最后一位的1
+            // 然后我们计算次数，看经过多少次n & (n-1)会变为0 
+            var count = 0;
+            while (n !== 0) {
+                n &= n - 1;
+                count++;
+            }
+            return count;
+        };
+    </script>
+</body>
+
+</html>

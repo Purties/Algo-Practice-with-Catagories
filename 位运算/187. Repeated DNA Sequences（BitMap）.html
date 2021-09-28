@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 187. 重复的DNA序列
+        所有 DNA 都由一系列缩写为 'A'，'C'，'G' 和 'T' 的核苷酸组成，例如："ACGAATTCCG"。在研究 DNA 时，识别 DNA 中的重复序列有时会对研究非常有帮助。
+
+        编写一个函数来找出所有目标子串，目标子串的长度为 10，且在 DNA 字符串 s 中出现次数超过一次。
+
+        输入：s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+        输出：["AAAAACCCCC", "CCCCCAAAAA"]
+        示例 2：
+
+        输入：s = "AAAAAAAAAAAAA"
+        输出：["AAAAAAAAAA"] */
+
+        /**
+        * @param {string} s
+        * @return {string[]}
+        * time : O(n)
+        * space : O(n)
+        */
+        var findRepeatedDnaSequences = function (s) {
+            // 用map来解决问题 （哈希）
+            var seen = new Map();
+            var repeat = [];
+            // 遍历所有s中可能出现的长度位10的substring
+            for (var i = 0; i < s.length - 9; i++) {
+                var temp = s.slice(i, i + 10);
+                // 如果值位1 则push到数组中，把他的值设为2，避免再次push
+                if (seen.get(temp) === 1) {
+                    repeat.push(temp);
+                    seen.set(temp, 2);
+                // 没有出现过则让其值为1，下次出现则会被push进数组
+                } else if (!seen.get(temp)) {
+                    seen.set(temp, 1)
+                }
+            }
+            return repeat;
+        };
+    </script>
+</body>
+
+</html>

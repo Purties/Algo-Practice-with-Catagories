@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /* 318. 最大单词长度乘积
+        给定一个字符串数组 words，找到 length(word[i]) * length(word[j]) 的最大值，并且这两个单词不含有公共字母。你可以认为每个单词只包含小写字母。如果不存在这样的两个单词，返回 0。
+
+        输入: ["abcw", "baz", "foo", "bar", "xtfn", "abcdef"]
+        输出: 16
+        解释: 这两个单词为 "abcw", "xtfn"。 */
+
+        // time : O(n^2)
+        // space : O(n)
+
+        var maxProduct = function (words) {
+            // 长度
+            var len = words.length;
+            // 最多公共字母数量
+            var max = 0;
+            var bits = new Array(len).fill(0);
+
+            // 遍历单词
+            for (let i = 0; i < len; i++) {
+                let word = words[i];
+                for (let j = 0; j < word.length; j++) {
+                    /* 左移1
+                        1 << 0 00001 = 1 a
+                        1 << 1 00010 = 2 b 
+                        1 << 2 00100 = 4 c
+                        1 << 3 01000 = 8
+
+                        eg: abc ==> 00111 = 7 
+                        a charCode是97 作为基准线
+                        当b时 charCode是98 则让1向左移一位
+
+                        相当于把字符串 用0 1的形式保存在了长度为26的二进制数中
+                    */
+                    bits[i] |= 1 << (word[j].charCodeAt() - 97);
+                }
+            }
+
+            // 遍历任意两个字符串对应的 26位二进制数
+            for (let i = 0; i < len; i++) {
+                for (let j = 0; j < i; j++) {
+                    // 当他们进行与运算，得到0 说明 没有重复的字符
+                    // 非0说明有重复的字符
+                    if ((bits[i] & bits[j]) === 0) {
+                        // 我们取他们长度的乘积 并和之前的max比较
+                        max = Math.max(max, words[i].length * words[j].length);
+                    }
+                }
+            }
+            return max;
+        };
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*  给定一个整数 num，将其转化为 7 进制，并以字符串形式输出。
+         输入: num = 100
+         输出: "202 */
+
+        /**
+        * @param {number} num
+        * @return {string}
+        * time : O(n)
+        * space : O(n)
+        */
+
+        var convertToBase7 = function (num) {
+            // 负数时，改为整数递归
+            if (num < 0) {
+                return '-' + convertToBase7(-1 * num);
+            }
+            // 终止条件
+            if (num < 7) {
+                return num + '';
+            }
+            // 正常递归
+            return convertToBase7(parseInt(num / 7)) + num % 7;
+        };
+    </script>
+</body>
+
+</html>
