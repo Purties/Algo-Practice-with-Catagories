@@ -42,19 +42,15 @@
         * 
         * Dichotomy 二分法
         * 
-        * time : O()
-        * space : O()
+        * time : O(logn)
+        * space : O(logn)
         */
 
-        var a = 7;
-        var b = -3;
-        console.log(divide(a, b));
-        
         var divide = function (dividend, divisor) {
             // 正负号
             var sign = 1;
             // 分子分母不同号，则改变sign
-            if ((dividend > 0 && divisor < 0) || (dividend < 0 || divisor > 0)) sign = -1;
+            if ((dividend > 0 && divisor < 0) || (dividend < 0 && divisor > 0)) sign = -1;
             // 取绝对值
             var absDivident = Math.abs(dividend);
             var absDivisor = Math.abs(divisor);
@@ -65,9 +61,9 @@
             var res = divideDichotomy(absDivident, absDivisor);
 
             // 考虑边界问题
-            if (res > 2147483647) return 2147483647;
-            if (res < -2147483648) return -2147483648;
-            return res;
+            if (sign * res >= 2147483647) return 2147483647;
+            if (sign * res <= -2147483648) return -2147483648;
+            return res * sign;
         };
 
         // 递归
@@ -90,6 +86,10 @@
             }
             return multiple + divide(dividend - divisor, originalDivisor);
         }
+
+        var a = -2147483648;
+        var b = 1;
+        console.log(divide(a, b));
     </script>
 </body>
 
