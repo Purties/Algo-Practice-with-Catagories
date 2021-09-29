@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 507. 完美数
+    对于一个 正整数，如果它和除了它自身以外的所有 正因子 之和相等，我们称它为 「完美数」。
+
+    给定一个 整数 n， 如果是完美数，返回 true，否则返回 false
+
+
+
+    示例 1：
+
+    输入：28
+    输出：True
+    解释：28 = 1 + 2 + 4 + 7 + 14
+    1, 2, 4, 7, 和 14 是 28 的所有正因子。
+    示例 2：
+
+    输入：num = 6
+    输出：true -->
+
+    <script>
+        /**
+        * @param {number} num
+        * @return {boolean}
+        * time: O(sqrt(n))
+        * space: O(1)
+        */
+
+        // 目的:获取到num所有的因数（除它自己）
+        var checkPerfectNumber = function (num) {
+            // 当数字为1时我们不考虑
+            if (num == 1) return false;
+
+            // 遍历所有小于 sqrt(num)的数字，看他是否能被i整除，如果可以则 res += i
+            // 注意res要从1开始算因为我们排除过1,1是默认加上的
+            let res = 1;
+            for (var i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i == 0) {
+                    res += (i + num / i);
+                }
+            }
+            return res == num;
+        };
+    </script>
+</body>
+
+</html>

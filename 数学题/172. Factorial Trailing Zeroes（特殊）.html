@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 172. 阶乘后的零
+    给定一个整数 n ，返回 n! 结果中尾随零的数量。
+
+    提示 n! = n * (n - 1) * (n - 2) * ... * 3 * 2 * 1
+
+
+    示例 1：
+
+    输入：n = 3
+    输出：0
+    解释：3! = 6 ，不含尾随 0
+    示例 2：
+
+    输入：n = 5
+    输出：1
+    解释：5! = 120 ，有一个尾随 0 -->
+
+    <script>
+        /**
+        * @param {number} n
+        * @return {number}
+        */
+        
+        // 此题本质上是数学问题
+        // 一个数的阶乘尾随的0只有一种可能性那就是
+        // 2 * 5 = 10
+        // 10! = 10 * 9 * 8 * 7 * 6 * 5 * 4 ...
+        // 我们可以发现 第一个 10中 有一个 2 * 5
+        // 数字 5 有一个 5
+        // 只要是偶数则他们 可以被2整除
+        // 所以5 出现的次数远小于2的次数
+        // 我们只需要判断在阶乘中5出现的次数即可
+
+        // time: O(logn)
+        // space: O(n) 需要栈空间
+        var trailingZeroes = function (n) {
+            // n / 5 代表的是 5到底有多少个
+            // 递归调用 是继续计算 n / 5中 阶乘有多少个 5
+            return n == 0 ? 0 : Math.trunc(n / 5) + trailingZeroes(Math.trunc(n / 5));
+        };
+    </script>
+</body>
+
+</html>

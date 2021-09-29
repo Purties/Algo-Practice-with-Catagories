@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /*
+        69. Sqrt(x)
+        给你一个非负整数 x ，计算并返回 x 的 算术平方根 。
+
+        由于返回类型是整数，结果只保留 整数部分 ，小数部分将被 舍去 。
+        注意：不允许使用任何内置指数函数和算符，例如 pow(x, 0.5) 或者 x ** 0.5 。
+
+        示例 1：
+
+        输入：x = 4
+        输出：2
+        */
+
+        // 参考题目 367
+
+        // 二分法
+        var mySqrt = function (x) {
+            if (x <= 0) return 0;
+            let low = 1;
+            let high = x;
+            while (low <= high) {
+                // 取平均数
+                let mid = Math.trunc((high + low) / 2);
+                // 平均数的平方就是num 返回
+                if (mid * mid == x) {
+                    return mid;
+                } else if (mid * mid < x) {
+                    // 平均数的平方小 则让low变为mid + 1
+                    low = mid + 1;
+                } else {
+                    // 平均数的平方大 则让high变为mid - 1
+                    high = mid - 1;
+                }
+            }
+            return right;
+        };
+
+        // 牛顿法
+        var mySqrt2 = function (x) {
+            let res = x;
+            while (res * res > x) {
+                // 切线与 x 轴的交点
+                res = Math.trunc((res + x / res) / 2);
+            }
+            return res;
+        }
+    </script>
+</body>
+
+</html>
