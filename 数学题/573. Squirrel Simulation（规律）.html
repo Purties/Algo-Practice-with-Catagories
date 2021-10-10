@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 1. 题目
+    现在有一棵树，一只松鼠和一些坚果。位置由二维网格的单元格表示。
+    你的目标是找到松鼠收集所有坚果的最小路程，且坚果是一颗接一颗地被放在树下。
+    松鼠一次最多只能携带一颗坚果，松鼠可以向上，向下，向左和向右四个方向移动到相邻的单元格。移动次数表示路程。
+    
+    
+    输入: 
+    高度 : 5
+    宽度 : 7
+    树的位置 : [2,2]
+    松鼠 : [4,4]
+    坚果 : [[3,0], [2,5]]
+    输出: 12 -->
+    <img src="https://img-blog.csdnimg.cn/20200705204453614.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxMjAxMjY3,size_16,color_FFFFFF,t_70"
+        alt="">
+
+    <script>
+        // 首先松鼠要走到离其最近的nut 然后回树 x + y
+        // 这个距离要尽可能的 x > y
+        // 即尽可能让x - y > 0
+        function minDistance(height, width, tree, squirrel, nuts) {
+            let total = 0;
+            let dis = 0;
+            nuts.forEach((nut, index) => {
+                // 得到每一颗nut和tree之间距离的总和 乘二 即2y
+                total += distance(nut, tree) * 2;
+                // 尽可能让x - y > 0
+                dis = Math.max(dis, distance(nut, tree) - distance(nut, squirrel));
+            });
+            // 总和2y 减去 y + x 即为 - (y - x)
+            return total - dis;
+
+        }
+
+        function distance(a, b) {
+            return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1])
+        }
+
+        let height = 5, width = 7, tree = [2, 2], squirrel = [4, 4], nuts = [[3, 0], [2, 5]];
+        console.log(minDistance(height, width, tree, squirrel, nuts));
+        /* Input:
+        Height: 5
+        Width: 7
+        Tree position: [2, 2]
+        Squirrel: [4, 4]
+        Nuts: [[3, 0], [2, 5]]
+        Output: 12 */
+    </script>
+
+</body>
+
+</html>

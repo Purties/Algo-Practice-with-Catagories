@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 如果一个数列 至少有三个元素 ，并且任意两个相邻元素之差相同，则称该数列为等差数列。
+
+    例如，[1,3,5,7,9]、[7,7,7,7] 和 [3,-1,-5,-9] 都是等差数列。
+    给你一个整数数组 nums ，返回数组 nums 中所有为等差数组的 子数组 个数。
+    
+    子数组 是数组中的一个连续序列。
+    
+     
+    
+    示例 1：
+    
+    输入：nums = [1,2,3,4]
+    输出：3
+    解释：nums 中有三个子等差数组：[1, 2, 3]、[2, 3, 4] 和 [1,2,3,4] 自身。
+    示例 2：
+    
+    输入：nums = [1]
+    输出：0 -->
+    <script>
+        /**
+        * @param {number[]} nums
+        * @return {number}
+        * time: O(n)
+        * space: O(1)
+        * 
+        * 数组          等差数列数目    与上一数组的等差数列比较
+        * 1 2 3             1               1 - 0 = 1
+        * 1 2 3 4           3               3 - 1 = 2
+        * 1 2 3 4 5         6               6 - 3 = 3
+        * 1 2 3 4 5 6       10              10 - 6 = 4
+        * 1 2 3 4 5 6 7     15              15 - 10 = 5
+        * 
+        * 组成最小长度位3的等差数列
+        * 如果数组中等差的值 + 1 则 那么会比上一个等差数列增加 n - 2 个数列
+        */
+        var numberOfArithmeticSlices = function (nums) {
+            let cur = 0;
+            let res = 0;
+            // 从第三个数字开始枚举，看有几个数字连续等差
+            for (let i = 2; i < nums.length; i++) {
+                // 如果等差
+                if (nums[i] - nums[i - 1] == nums[i - 1] - nums[i - 2]) {
+                    // cur递增 
+                    cur++;
+                    // 每次增加 1 2 3 4 5
+                    res += cur;
+                } else {
+                    cur = 0;
+                }
+            }
+            return res;
+        };
+    </script>
+     
+</body>
+
+</html>

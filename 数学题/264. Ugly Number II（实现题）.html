@@ -31,12 +31,30 @@
         /**
         * @param {number} n
         * @return {number}
-        * time: O()
-        * space: O()
+        * time: O(n)
+        * space: O(n)
         */
         var nthUglyNumber = function (n) {
-            
+            let nums = new Array(n);
+            let index2 = 0;
+            let index3 = 0;
+            let index5 = 0;
+            nums[0] = 1;
+            console.log(nums);
+            for (var i = 1; i < nums.length; i++) {
+                nums[i] = Math.min(nums[index2] * 2, nums[index3] * 3, nums[index5] * 5);
+                // console.log('2倍数', nums[index2] * 2);
+                // console.log('3倍数', nums[index3] * 3);
+                // console.log('5倍数', nums[index5] * 5);
+                if (nums[i] == nums[index2] * 2) index2++;
+                if (nums[i] == nums[index3] * 3) index3++;
+                if (nums[i] == nums[index5] * 5) index5++;
+            }
+            return nums.slice(0, -1);
         };
+
+        let a = 10;
+        console.log(nthUglyNumber(10));
     </script>
 </body>
 
