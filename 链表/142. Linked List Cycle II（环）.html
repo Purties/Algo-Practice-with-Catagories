@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 142. 环形链表 II
+    给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。
+
+    为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。注意，pos 仅仅是用于标识环的情况，并不会作为参数传递到函数中。
+
+    说明：不允许修改给定的链表。
+
+    进阶：
+
+    你是否可以使用 O(1) 空间解决此题？ -->
+
+    <!-- 环形链表的解决方法：
+        有两个指针fast和slow
+        fast一次走两格，slow一次走一格
+        fast 的速度是slow的两倍，所以fast走的距离就是slow的两倍
+    
+        具体解释见
+        https://blog.csdn.net/xy010902100449/article/details/48995255 -->
+    <script>
+        /**
+        * Definition for singly-linked list.
+        * function ListNode(val) {
+        *     this.val = val;
+        *     this.next = null;
+        * }
+        */
+
+        /**
+         * @param {ListNode} head
+         * @return {ListNode}
+         * time O(n)
+         * space O(1)
+         */
+        var detectCycle = function (head) {
+            // 边界条件
+            if (head == null || head.next == null) return null;
+            // 初始化node
+            let fast = head, slow = head;
+            while (fast != null & fast.next != null) {
+                // fast一次走两格，slow一次走一格
+                slow = slow.next;
+                fast = fast.next.next;
+                // 相遇了
+                if (fast == slow) {
+                    // 创建一个新的slow2
+                    let slow2 = head;
+                    // slow2 从head 到slow的距离 与
+                    // slow比fast少走的距离相同，所以我们只要得到这一倍距离的差值
+                    // 返回这个node就是环的起点
+                    while (slow != slow2) {
+                        slow = slow.next;
+                        slow2 = slow2.next;
+                    }
+                    return slow;
+                }
+
+            }
+            // 执行到这里说明没有环
+            return null;
+        };
+    </script>
+</body>
+
+</html>
