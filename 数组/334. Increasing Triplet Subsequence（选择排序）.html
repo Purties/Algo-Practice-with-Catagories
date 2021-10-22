@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 334. 递增的三元子序列
+    给你一个整数数组 nums ，判断这个数组中是否存在长度为 3 的递增子序列。
+
+    如果存在这样的三元组下标 (i, j, k) 且满足 i < j < k ，使得 nums[i] < nums[j] < nums[k] ，返回 true ；否则，返回 false 。 
+    示例 1：
+        输入：nums=[1,2,3,4,5] 输出：true 
+        解释：任何 i < j < k 的三元组都满足题意
+        
+    示例 2： 
+        输入：nums=[5,4,3,2,1] 输出：false 
+        解释：不存在满足题意的三元组 
+    示例 3：
+        输入：nums=[2,1,5,0,4,6] 输出：true 
+        解释：三元组 (3, 4, 5) 满足题意，因为 nums[3]==0 < nums[4]==4 < nums[5]==6  -->
+    <script>
+        /** 
+        * @param {number[]} nums
+        * @return {boolean}
+        * time O(n)
+        * space O(1)
+        */
+        var increasingTriplet = function (nums) {
+            let min = Number.MAX_VALUE;
+            let secMin = Number.MAX_VALUE;
+            // for (let i = 0; i < nums.length; i++) {
+            //     let num = nums[i];
+            //     if (num <= min) {
+            //         min = num;
+            //     } else if (num < secMin) {
+            //         secMin = num;
+            //     } else if (num > secMin) {
+            //         return true;
+            //     }
+            // }
+            nums.forEach(num => {
+                if (num <= min) {
+                    min = num;
+                } else if (num < secMin) {
+                    secMin = num;
+                } else if (num > secMin) {
+                    return true;
+                }
+            });
+            return false;
+        };
+
+        const input = [1, 2, 3, 4, 5];
+        console.log(increasingTriplet(input));
+    </script>
+</body>
+
+</html>
