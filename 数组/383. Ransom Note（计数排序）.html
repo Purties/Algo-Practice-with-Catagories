@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!--     383. 赎金信
+    给定一个赎金信 (ransom) 字符串和一个杂志(magazine)字符串，判断第一个字符串 ransom 能不能由第二个字符串 magazines 里面的字符构成。如果可以构成，返回 true ；否则返回 false。
+
+    (题目说明：为了不暴露赎金信字迹，要从杂志上搜索各个需要的字母，组成单词来表达意思。杂志字符串中的每个字符只能在赎金信字符串中使用一次。)
+
+
+
+    示例 1：
+
+    输入：ransomNote = "a", magazine = "b"
+    输出：false
+    示例 2：
+
+    输入：ransomNote = "aa", magazine = "ab"
+    输出：false
+    示例 3：
+
+    输入：ransomNote = "aa", magazine = "aab"
+    输出：true -->
+
+    <script>
+        /**
+        * @param {string} ransomNote
+        * @param {string} magazine
+        * @return {boolean}
+        * 
+        * time O(n)
+        * space O(1)
+        */
+        var canConstruct = function (ransomNote, magazine) {
+            // 用对象存储magazine中每一个字母出现的次数
+            const obj = magazine.split('').reduce((p, c) => {
+                !p[c] ? p[c] = 1 : p[c]++;
+                return p;
+            }, {});
+            for (var i = 0; i < ransomNote.length; i++) {
+                if (obj[ransomNote[i]] === undefined) return false;
+                if (--obj[ransomNote[i]] < 0) return false;
+            }
+            return true;
+        };
+
+        let a = 'aa', b = 'aab';
+        console.log(canConstruct(a, b));
+    </script>
+</body>
+
+</html>

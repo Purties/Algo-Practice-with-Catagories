@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 242. 有效的字母异位词
+    给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。
+
+    注意：若 s 和 t 中每个字符出现的次数都相同，则称 s 和 t 互为字母异位词。
+
+
+
+    示例 1:
+
+    输入: s = "anagram", t = "nagaram"
+    输出: true
+    示例 2:
+
+    输入: s = "rat", t = "car"
+    输出: false -->
+
+    <script>
+        /**
+        * @param {string} s
+        * @param {string} t
+        * @return {boolean}
+        * time O(n)
+        * space O(1)
+        */
+        var isAnagram = function (s, t) {
+            // 看s，t的长度是否相等
+            if (s.length !== t.length) return false;
+            // 生成s中每个字母与其出现次数的键值对组成的对象
+            const obj = s.split('').reduce((p, c) => {
+                p[c] ? p[c]++ : p[c] = 1;
+                return p;
+            }, {});
+            // 遍历t中的字母，碰到一个字母就让obj内对应字母的value--
+            for (var i = 0; i < t.length; i++) {
+                const item = t[i];
+                // 如果没有这个key 返回f
+                if (obj[item] === undefined) return false;
+                // 如果减到-1 返回f
+                if (--obj[item] < 0) return false;
+            }
+            // 最后需要判断obj内值是否全部为0
+            const arr = Object.values(obj);
+            return arr.every(item => {
+                return item === 0;
+            })
+        };
+        let a = "anagram";
+        let b = "nagaram";
+        console.log(isAnagram(a, b));
+    </script>
+</body>
+
+</html>
