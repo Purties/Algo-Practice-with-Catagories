@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 
+    87. 扰乱字符串
+
+    题目复杂: https://blog.csdn.net/qq_17550379/article/details/85124361
+    示例 1：
+
+    输入：s1 = "great", s2 = "rgeat"
+    输出：true
+    解释：s1 上可能发生的一种情形是：
+    "great" -> "gr/eat" // 在一个随机下标处分割得到两个子字符串
+    "gr/eat" -> "gr/eat" // 随机决定：「保持这两个子字符串的顺序不变」
+    "gr/eat" -> "g/r / e/at" // 在子字符串上递归执行此算法。两个子字符串分别在随机下标处进行一轮分割
+    "g/r / e/at" -> "r/g / e/at" // 随机决定：第一组「交换两个子字符串」，第二组「保持这两个子字符串的顺序不变」
+    "r/g / e/at" -> "r/g / e/ a/t" // 继续递归执行此算法，将 "at" 分割得到 "a/t"
+    "r/g / e/ a/t" -> "r/g / e/ a/t" // 随机决定：「保持这两个子字符串的顺序不变」
+    算法终止，结果字符串和 s2 相同，都是 "rgeat"
+    这是一种能够扰乱 s1 得到 s2 的情形，可以认为 s2 是 s1 的扰乱字符串，返回 true -->
+
+    <script>
+        /**
+         * @param {string} s1
+         * @param {string} s2
+         * @return {boolean}
+         */
+
+        //  此题用递归已经超时，无法完成 跳过
+        var isScramble = function (s1, s2) {
+            if (s1.length !== s2.length) return false;
+
+            if (s1 == s2) return true;
+
+            let map = {};
+            for (let i = 0; i < s1.length; i++) {
+                map[s1[i]] = map[s1[i]] || 0;
+                map[s1[i]]++;
+            }
+
+            for (let i = 0; i < s2.length; i++) {
+                map[s2[i]] = map[s2[i]] || 0;
+                map[s2[i]]--;
+            }
+
+            for (let key in map) {
+                if (map[key] !== 0) {
+                    return false;
+                }
+            }
+
+            for (let i = 1; i < s1.length; i++) {
+                if (isScramble(s1.slice(0, i), s2.slice(0, i)) && isScramble(s1.slice(i), s2.slice(i))) {
+                    return true;
+                }
+
+                if (isScramble(s1.slice(0, i), s2.slice(s2.length - i)) && isScramble(s1.slice(i), s2.slice(0, s2.length - i))) {
+                    return true;
+                }
+            }
+            return false;
+        };
+    </script>
+</body>
+
+</html>
