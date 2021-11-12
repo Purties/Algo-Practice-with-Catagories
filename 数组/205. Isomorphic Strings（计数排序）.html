@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 205. 同构字符串
+    给定两个字符串 s 和 t，判断它们是否是同构的。
+
+    如果 s 中的字符可以按某种映射关系替换得到 t ，那么这两个字符串是同构的。
+
+    每个出现的字符都应当映射到另一个字符，同时不改变字符的顺序。不同字符不能映射到同一个字符上，相同字符只能映射到同一个字符上，字符可以映射到自己本身。
+
+
+
+    示例 1:
+
+    输入：s = "egg", t = "add"
+    输出：true
+    示例 2：
+
+    输入：s = "foo", t = "bar"
+    输出：false
+    示例 3：
+
+    输入：s = "paper", t = "title"
+    输出：true -->
+    <script>
+        /**
+        * @param {string} s
+        * @param {string} t
+        * @return {boolean}
+        */
+        // Hashmap方法
+        // time O(n^2) space O(n)
+        var isIsomorphic = function (s, t) {
+            if (s.length === 0 || t.length === 0) return true;
+            // map的键是s[i], 值为t[i]
+            let map = new Map();
+            for (let i = 0; i < s.length; i++) {
+                const charS = s[i];
+                const charT = t[i];
+                // console.log('第' + i + '次');
+                // console.log('s[i]是', charS);
+                // console.log('t[i]是', charT);
+                // 当map中有s[i]
+                if (map.has(charS)) {
+                    // 如果s[i]和t[i]一样
+                    if (map.get(charS) === charT) {
+                        // 符合 进入下一循环
+                        continue;
+                    } else {
+                        // 不符合
+                        return false;
+                    }
+                } else {
+                    // 当map中没有s[i]
+                    for (let value of map.values()) {
+                        // console.log('map', map);
+                        // console.log("value", value);
+                        // 在map中不包含s[i]的情况，那么value应该是一个不同与所有map中value的值，例如 当a => b  c => b a和c都map到b，则是错的
+                        if (value === charT) {
+                            return false;
+                        }
+                    }
+                    // 添加一个键值对
+                    map.set(charS, charT);
+                }
+            }
+            return true;
+        };
+
+        // countingSort方法
+        // time O(n) space O(1)
+        // var isIsomorphic2 = function (s, t) {}
+
+        // let s = 'paper', t = 'title';
+        // let s = 'foo', t = 'bar';
+        let s = 'badc', t = 'baba';
+        console.log(isIsomorphic(s, t));
+    </script>
+</body>
+
+</html>
