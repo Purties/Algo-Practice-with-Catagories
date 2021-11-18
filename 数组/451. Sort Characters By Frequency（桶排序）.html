@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 451. 根据字符出现频率排序
+    给定一个字符串，请将字符串里的字符按照出现的频率降序排列。
+
+    示例 1:
+    输入:
+    "tree"
+    输出:
+    "eert"
+    解释:
+    'e'出现两次，'r'和't'都只出现一次。
+    因此'e'必须出现在'r'和't'之前。此外，"eetr"也是一个有效的答案。
+
+    示例 2:
+    输入:
+    "cccaaa"
+    输出:
+    "cccaaa"
+    解释:
+    'c'和'a'都出现三次。此外，"aaaccc"也是有效的答案。
+    注意"cacaca"是不正确的，因为相同的字母必须放在一起。
+
+    示例 3:
+    输入:
+    "Aabb"
+    输出:
+    "bbAa"
+    解释:
+    此外，"bbaA"也是一个有效的答案，但"Aabb"是不正确的。
+    注意'A'和'a'被认为是两种不同的字符。  -->
+    <script>
+        /**
+         * @param {string} s
+         * @return {string}
+         */
+        var frequencySort = function (s) {
+            let map = new Map();
+            // 获取每个字母出现的频率
+            for (var i = 0; i < s.length; i++) {
+                if (map.has(s[i])) {
+                    map.set(s[i], map.get(s[i]) + 1);
+                } else {
+                    map.set(s[i], 1)
+                }
+            }
+
+            // bucketsort
+            // 频率为0是没用但是需要占位
+            let arr = new Array(s.length + 1);
+            console.log(arr);
+            for (let [key, freq] of map) {
+                // 字母的频率
+                // 如果这个bucket没内容
+                if (!arr[freq]) {
+                    // 开辟一个空间保存
+                    arr[freq] = [];
+                }
+                arr[freq].push([key])
+            }
+            console.log(arr);
+            let result = '';
+            for (let i = arr.length - 1; i >= 0; i--) {
+                // 只要这项不为空
+                if (arr[i]) {
+                    // i就是index 代表这个字母的频率
+                    arr[i].forEach(item => {
+                        // 利用repeat()方法 拼接字符串 一共i次
+                        result += item[0].repeat(i);
+                        // console.log(result);
+                    })
+                }
+            }
+
+            return result;
+        };
+
+        const frequencySort2 = s => {
+            let result = '';
+            const map = new Map();
+            // 遍历s
+            for (let char of s) {
+                map.set(char, (map.get(char) || 0) + 1);
+            }
+            console.log(map);
+
+            // 根据次数排序
+            const arr = Array.from(map).sort((a, b) => b[1] - a[1]);
+            console.log(arr);
+            return arr.reduce((p, c) => {
+                return p + c[0].repeat(c[1]);
+            }, '')
+        }
+
+        console.log(frequencySort2("tree"));
+    </script>
+</body>
+
+</html>
