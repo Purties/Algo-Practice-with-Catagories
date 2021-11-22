@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 253. 会议室 II
+    给你一个会议时间安排的数组 intervals ，每个会议时间都会包括开始和结束的时间 intervals[i] = [starti, endi]
+    ，为避免会议冲突，同时要考虑充分利用会议室资源，请你计算至少需要多少间会议室，才能满足这些会议安排。
+
+
+
+    示例 1：
+
+    输入：intervals = [[0,30],[5,10],[15,20]]
+    输出：2
+    示例 2：
+
+    输入：intervals = [[7,10],[2,4]]
+    输出：1 -->
+    <script>
+        /**
+         * @param {number[][]} intervals
+         * @return {number}
+         */
+        var minMeetingRooms = function (intervals) {
+            // 边界条件
+            if (!intervals.length) {
+                return 0;
+            }
+            // 把会议的开始时间和结束时间分别放入两个数组
+            let starts = new Array(intervals.length);
+            let ends = new Array(intervals.length);
+            for (let i = 0; i < intervals.length; i++) {
+                starts[i] = intervals[i][0];
+                ends[i] = intervals[i][1];
+            }
+            // 把两个数组从小到大排序
+            starts.sort((a, b) => a - b);
+            ends.sort((a, b) => a - b);
+
+            let res = 0, end = 0;
+            for (let i = 0; i < intervals.length; i++) {
+                starts[i] < ends[end] ? res++ : end++;
+            }
+            return res;
+        };
+    </script>
+</body>
+
+</html>
