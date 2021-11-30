@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!--     548. 将数组分割成和相等的子数组
+    给定一个有 n 个整数的数组，你需要找到满足以下条件的三元组 (i, j, k) ：
+
+    0 < i, i + 1 < j, j + 1 < k < n - 1
+    子数组 (0, i - 1)，(i + 1, j - 1)，(j + 1, k - 1)，(k + 1, n - 1) 的和应该相等。
+    这里我们定义子数组 (L, R) 表示原数组从索引为L的元素开始至索引为R的元素。
+
+    示例:
+
+    输入: [1,2,1,2,1,2,1]
+    输出: True
+    解释:
+    i = 1, j = 3, k = 5. 
+    sum(0, i - 1) = sum(0, 0) = 1
+    sum(i + 1, j - 1) = sum(2, 2) = 1
+    sum(j + 1, k - 1) = sum(4, 4) = 1
+    sum(k + 1, n - 1) = sum(6, 6) = 1 -->
+    <script>
+        /**
+         * @param {number[]} nums
+         * @return {boolean}
+         * time O(n^2)
+         * space O(n)
+         */
+        var splitArray = function (nums) {
+            // 数组长度至少为7，否则无论如何都不满足条件
+            if (nums.length < 7) return false;
+            let sum = new Array(nums.length);
+            sum[0] = nums[0];
+            for (let i = 1; i < nums.length; i++) {
+                // 把sum变为前缀和的形式
+                sum[i] = sum[i - 1] + nums[i];
+            }
+            // i,j,k把数组分为三份
+            // 我们应该首先考虑j，在中间，以便后来确定i和k
+            // i的范围是[1 j-1)
+            // k的范围是[j+2 nums.length-1)
+            // 为了给i/k留位置 范围是[3 nums.length-3)
+            for (let j = 3; j < nums.length - 3; j++) {
+                const set = new Set();
+                for (let i = 1; i < j - 1; i++) {
+                    if (sum[i - 1] === sum[j - 1] - sum[i]) {
+                        set.add(sum[i - 1]);
+                    }
+                }
+
+                for (let k = j + 2; k < nums.length; k++) {
+
+                    if ((sum[nums.length - 1] - sum[k] === sum[k - 1] - sum[j]) && set.has(sum[k - 1] - sum[j])) {
+                        debugger;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        };
+
+        console.log(splitArray([3, 1, -4, 9, 0, -9, -6, 4, -9, 10, 0, -4, 5, 0]));
+    </script>
+</body>
+
+</html>

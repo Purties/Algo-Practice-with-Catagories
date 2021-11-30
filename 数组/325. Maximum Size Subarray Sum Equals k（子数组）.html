@@ -27,23 +27,30 @@
          * @param {number[]} nums
          * @param {number} k
          * @return {number}
+         * 
+         * time O(n)
+         * space O(n)
          */
         var maxSubArrayLen = function (nums, k) {
             if (!nums.length) return 0;
             const map = new Map();
             let res = 0;
+
+            // 设置0对应-1是为了从头开始计算和为k的数量
             map.set(0, -1);
             for (let i = 1; i < nums.length; i++) {
                 // 把num[i]变为前i项的和
                 nums[i] += nums[i - 1];
             }
+
             for (let i = 0; i < nums.length; i++) {
                 if (map.has(nums[i] - k)) {
                     res = Math.max(res, i - map.get(nums[i] - k))
-                } else {
+                } 
+                // 当map中已经有nums[i]时不能更新值
+                if(!map.has(nums[i])) {
                     map.set(nums[i], i);
                 }
-
             }
             return res;
         };

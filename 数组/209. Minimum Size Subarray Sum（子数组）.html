@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 209. 长度最小的子数组
+    给定一个含有 n 个正整数的数组和一个正整数 target 。
+
+    找出该数组中满足其和 ≥ target 的长度最小的 连续子数组 [numsl, numsl+1, ..., numsr-1, numsr] ，并返回其长度。如果不存在符合条件的子数组，返回 0 。
+
+    示例 1：
+
+    输入：target = 7, nums = [2,3,1,2,4,3]
+    输出：2
+    解释：子数组 [4,3] 是该条件下的长度最小的子数组。
+    示例 2：
+
+    输入：target = 4, nums = [1,4,4]
+    输出：1
+    示例 3：
+
+    输入：target = 11, nums = [1,1,1,1,1,1,1,1]
+    输出：0 -->
+    <script>
+        /**
+         * @param {number} target
+         * @param {number[]} nums
+         * @return {number}
+         */
+        var minSubArrayLen = function (target, nums) {
+            // sliding window
+            let res = Number.MAX_VALUE;
+            let left = 0, sum = 0;
+            for (let i = 0; i < nums.length; i++) {
+                sum += nums[i];
+                while (left <= i && sum >= target) {
+                    // i和left构成了一个窗口
+                    // 如果left和i包裹着的区域他们合大于target，那么记录这个长度并和res比较取最小
+                    res = Math.min(res, i - left + 1);
+                    // 我们让left左移一位看是否[left,i]中元素之和还能大于target
+                    sum -= nums[left++]
+                }
+            }
+            // 如果res还是MAX_VALUE说明全部数加起来都没有target大
+            return res == Number.MAX_VALUE ? 0 : res;
+        };
+    </script>
+</body>
+
+</html>
