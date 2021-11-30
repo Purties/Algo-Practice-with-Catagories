@@ -56,9 +56,7 @@
                 }
 
                 for (let k = j + 2; k < nums.length; k++) {
-
                     if ((sum[nums.length - 1] - sum[k] === sum[k - 1] - sum[j]) && set.has(sum[k - 1] - sum[j])) {
-                        debugger;
                         return true;
                     }
                 }
