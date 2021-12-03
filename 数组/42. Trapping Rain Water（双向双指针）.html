@@ -15,7 +15,16 @@
          * @return {number}
          */
         var trap = function (height) {
-            
+            let res = left = leftMax = rightMax = 0;
+            let right = height.length - 1;
+            while (left < right) {
+                leftMax = Math.max(leftMax, height[left]);
+                rightMax = Math.max(rightMax, height[right]);
+                // 如果左边的柱子高于右边的柱子
+                // 如果右边的柱子高于左边的柱子
+                res += height[left] < height[right] ? leftMax - height[left++] : rightMax - height[right--];
+            }
+            return res;
         };
     </script>
 </body>

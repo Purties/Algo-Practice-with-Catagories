@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * @param {number[]} nums
+         * @param {number} target
+         * @return {number}
+         */
+        var threeSumClosest = function (nums, target) {
+            // 边界条件
+            if (!nums.length || nums.length < 3) return [];
+            // 排序
+            nums = nums.sort((a, b) => a - b);
+            // 初始值
+            let res = nums[0] + nums[1] + nums[nums.length - 1];
+            for (let i = 0; i < nums.length - 2; i++) {
+                // 构成[i+1,nums.length-1]的区间再遍历
+                let j = i + 1, k = nums.length - 1;
+                while (j < k) {
+                    // 取得和
+                    let sum = nums[i] + nums[j] + nums[k];
+                    // sum 多了
+                    if (sum > target) {
+                        // 少一点
+                        k--;
+                    } else {
+                        // sum少了 多加点
+                        j++;
+                    }
+                    // 只有最接近target 才记录sum
+                    if (Math.abs(sum - target) < Math.abs(res - target)) {
+                        res = sum;
+                    }
+                }
+            }
+            return res;
+        };
+    </script>
+</body>
+
+</html>

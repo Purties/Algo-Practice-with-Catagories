@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 15. 三数之和
+    给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组。
+    
+    注意：答案中不可以包含重复的三元组。
+    
+     
+    
+    示例 1：
+    
+    输入：nums = [-1,0,1,2,-1,-4]
+    输出：[[-1,-1,2],[-1,0,1]]
+    示例 2：
+    
+    输入：nums = []
+    输出：[]
+    示例 3：
+    
+    输入：nums = [0]
+    输出：[] -->
+    <script>
+        /**
+         * @param {number[]} nums
+         * @return {number[][]}
+         */
+        var threeSum = function (nums) {
+            if (!nums.length || nums.length < 3) return [];
+            nums = nums.sort((a, b) => a - b);
+            let res = [];
+            for (let i = 0; i < nums.length - 2; i++) {
+                // 遍历数组
+                // 三个数分别为i, j, k
+
+                // nums[i]>0则三者和无法为0
+                if (nums[i] > 0) break;
+                // 排除nums[i]重复
+                if (nums[i] === nums[i - 1]) continue;
+
+                // 以i为起点，j k 分别是[i+1,nums.length-1]的闭区间双指针
+                let j = i + 1;
+                let k = nums.length - 1;
+                while (j < k) {
+                    // 从两边到中间进行nums[i] + num[j] + nums[k]计算 
+                    if (nums[j] + nums[k] + nums[i] === 0) {
+                        res.push([nums[i], nums[j], nums[k]]);
+                        // 排除nums[j]重复
+                        while (j < k && nums[j] === nums[j + 1]) j++;
+                        // 排除nums[k]重复
+                        while (j < k && nums[k] === nums[k - 1]) k--;
+                        j++;
+                        k--;
+                    } else if (nums[j] + nums[k] + nums[i] < 0) {
+                        // 和小了，j++
+                        j++;
+                    } else {
+                        // 和大了 k--
+                        k--;
+                    }
+                }
+            }
+            return res;
+        };
+        console.log(threeSum([-1, 0, 1, 2, -1, -4]));
+    </script>
+</body>
+
+</html>
