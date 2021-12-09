@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 41. 缺失的第一个正数
+    给你一个未排序的整数数组 nums ，请你找出其中没有出现的最小的正整数。
+    
+    请你实现时间复杂度为 O(n) 并且只使用常数级别额外空间的解决方案。
+     
+    
+    示例 1：
+    
+    输入：nums = [1,2,0]
+    输出：3
+    示例 2：
+    
+    输入：nums = [3,4,-1,1]
+    输出：2
+    示例 3：
+    
+    输入：nums = [7,8,9,11,12]
+    输出：1 -->
+
+    <script>
+        /**
+        * @param {number[]} nums
+        * @return {number}
+        * time O(n)
+        * space O(1)
+        */
+        var firstMissingPositive = function (nums) {
+            // 边界条件 第一个正整数是1
+            if (!nums.length) return 1;
+            // 利用桶排序的思想，我们想让对应的数字到对应的位置上去，
+            // 若 [1,2,3] 结果为 4
+            // 若 [1,0,3] 结果为 2
+
+            // 当数组改写为 从一开始的正整数序列时
+            // 我们只需要遍历判断从左到右哪一位数字不对，即可得到答案
+            for (let i = 0; i < nums.length; i++) {
+                // 因为是无序数组 我们想得到的数组是从1到nums.length的正整数连续数组
+                // 那么符合条件的结果是 [1,num.length] 的闭区间
+                // nums[nums[i] - 1] != nums[i] 
+                // 意思是 如果不相等的话
+                // nums[nums[i] - 1] 应该在nums[i] 的位置上
+                while (nums[i] > 0 && nums[i] <= nums.length && nums[nums[i] - 1] != nums[i]) {
+                    let temp = nums[nums[i] - 1];
+                    nums[nums[i] - 1] = nums[i];
+                    nums[i] = temp;
+                }
+            }
+            // 开始比对，看哪一位不符合
+            for (let i = 0; i < nums.length; i++) {
+                if (nums[i] != i + 1) {
+                    return i + 1;
+                }
+            }
+            // 如果都符合则是[1,2,3]的情况 
+            return nums.length + 1;
+        };
+    </script>
+</body>
+
+</html>
