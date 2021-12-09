@@ -41,12 +41,13 @@
                     if (i - map.get(nums[i]) <= k) {
                         return true;
                     }
-                } else {
-                    map.set(nums[i], i);
                 }
+                map.set(nums[i], i);
             }
             return false;
         };
+        nums = [1, 0, 1, 1], k = 1
+        console.log(containsNearbyDuplicate(nums, k));
     </script>
 </body>
 
