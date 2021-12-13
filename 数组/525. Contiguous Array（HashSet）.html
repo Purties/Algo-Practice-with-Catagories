@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 525. 连续数组
+    给定一个二进制数组 nums , 找到含有相同数量的 0 和 1 的最长连续子数组，并返回该子数组的长度。
+
+    示例 1:
+    输入: nums = [0,1]
+    输出: 2
+    说明: [0, 1] 是具有相同数量 0 和 1 的最长连续子数组。
+
+    示例 2:
+    输入: nums = [0,1,0]
+    输出: 2
+    说明: [0, 1] (或 [1, 0]) 是具有相同数量0和1的最长连续子数组。 -->
+    <script>
+        /**
+        * @param {number[]} nums
+        * @return {number}
+        */
+        var findMaxLength = function (nums) {
+            // hashmap保存的是 累加和 与 index 的键值对
+            const map = new Map();
+            // 根据累加和的经验，map的默认位置我们放入(0,-1)
+            map.set(0, -1);
+            // count是累加和
+            let res = count = 0;
+            // 遍历数组
+            for (let i = 0; i < nums.length; i++) {
+                // 我们在做累加和的时候 0变为-1，那么自然而然的当subarray中的0和1相等时，累加和为0
+                count += (nums[i] == 1 ? 1 : -1);
+                // 当map中已经保存了对应的累加和时
+                if (map.has(count)) {
+                    // 说明前面的有子串满足子串和为0的情况
+                    // 我们求得最长子串长度
+                    res = Math.max(res, i - map.get(count));
+                } else {
+                    // 当map中没有出现改累加和时，说明此处还不满足情况，我们往map中添加该count
+                    map.set(count, i);
+                }
+            }
+            return res;
+        }; 
+
+    </script>
+</body>
+
+</html>

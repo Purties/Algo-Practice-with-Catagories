@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 447. 回旋镖的数量
+    给定平面上 n 对 互不相同 的点 points ，其中 points[i] = [xi, yi] 。回旋镖 是由点 (i, j, k) 表示的元组 ，其中 i 和 j 之间的距离和 i 和 k 之间的欧式距离相等（需要考虑元组的顺序）。
+    
+    返回平面上所有回旋镖的数量。
+    
+    示例 1：
+    输入：points = [[0,0],[1,0],[2,0]]
+    输出：2
+    解释：两个回旋镖为 [[1,0],[0,0],[2,0]] 和 [[1,0],[2,0],[0,0]]
+
+    示例 2：
+    输入：points = [[1,1],[2,2],[3,3]]
+    输出：2
+
+    示例 3：
+    输入：points = [[1,1]]
+    输出：0     -->
+    <script>
+        /**
+        * @param {number[][]} points
+        * @return {number}
+        */
+        var numberOfBoomerangs = function (points) {
+            let res = 0;
+            // hashmap保存 距离 与 点的数量 的键值对
+            const map = new Map();
+            // 遍历所有点 一一对应 
+            for (let i = 0; i < points.length; i++) {
+                for (let j = 0; j < points.length; j++) {
+                    // 当ij在比较同一点时，直接跳过  
+                    if (i == j) continue;
+                    let dist = getDist(points[i], points[j]);
+                    // hashmap
+                    if (map.has(dist)) {
+                        map.set(dist, map.get(dist) + 1);
+                    } else {
+                        map.set(dist, 1);
+                    }
+                }
+                for (let val of map.values()) {
+                    res += val * (val - 1);
+                }
+                map.clear();
+            }
+            return res;
+        };
+        // 计算距离，本来是应该要开方的，但是不影响计算结果
+        const getDist = (a, b) => {
+            let x = a[0] - b[0];
+            let y = a[1] - b[1];
+            return (x * x) + (y * y);
+        }
+    </script>
+</body>
+
+</html>
