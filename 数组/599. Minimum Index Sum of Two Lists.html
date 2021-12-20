@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 599. 两个列表的最小索引总和
+    假设Andy和Doris想在晚餐时选择一家餐厅，并且他们都有一个表示最喜爱餐厅的列表，每个餐厅的名字用字符串表示。
+
+    你需要帮助他们用最少的索引和找出他们共同喜爱的餐厅。 如果答案不止一个，则输出所有答案并且不考虑顺序。 你可以假设总是存在一个答案。
+
+    示例 1:
+    输入:
+    ["Shogun", "Tapioca Express", "Burger King", "KFC"]
+    ["Piatti", "The Grill at Torrey Pines", "Hungry Hunter Steakhouse", "Shogun"]
+    输出: ["Shogun"]
+    解释: 他们唯一共同喜爱的餐厅是“Shogun”。
+
+    示例 2:
+    输入:
+    ["Shogun", "Tapioca Express", "Burger King", "KFC"]
+    ["KFC", "Shogun", "Burger King"]
+    输出: ["Shogun"]
+    解释: 他们共同喜爱且具有最小索引和的餐厅是“Shogun”，它有最小的索引和1(0+1)。 -->
+    <script>
+        /**
+        * @param {string[]} list1
+        * @param {string[]} list2
+        * @return {string[]}
+        */
+        var findRestaurant = function (list1, list2) {
+            const map = new Map();
+            // 结果是一个装字符串的数组
+            let res = [];
+            // 遍历list1，把对应的 餐馆名：index 放入map
+            for (let i = 0; i < list1.length; i++) {
+                map.set(list1[i], i);
+            }
+            let min = Number.MAX_VALUE;
+            // 遍历数组2
+            for (let i = 0; i < list2.length; i++) {
+                let j = map.get(list2[i]);
+                // 如果拿到的j存在，并且 他们index的和小于当前最小值
+                if (j !== undefined && i + j <= min) {
+                    // 当index和小于min 那么我们需要重置res
+                    if (i + j < min) {
+                        res = [];
+                        min = i + j;
+                    }
+                    // 如果i+j<=min那么我们都给res添加一个新元素
+                    res.push(list2[i]);
+                }
+            }
+            return res;
+        };       
+    </script>
+</body>
+
+</html>
