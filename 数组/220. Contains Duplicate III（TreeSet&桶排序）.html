@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 220. 存在重复元素 III
+    给你一个整数数组 nums 和两个整数 k 和 t 。请你判断是否存在 两个不同下标 i 和 j，使得 abs(nums[i] - nums[j]) <= t ，同时又满足 abs(i - j) <= k 。
+    
+    如果存在则返回 true，不存在返回 false。 
+    
+    示例 1：
+    输入：nums = [1,2,3,1], k = 3, t = 0
+    输出：true
+
+    示例 2： 
+    输入：nums = [1,0,1,1], k = 1, t = 2
+    输出：true
+
+    示例 3：
+    输入：nums = [1,5,9,1,5,9], k = 2, t = 3
+    输出：false -->
+    <script>
+        /**
+       * @param {number[]} nums
+       * @param {number} k
+       * @param {number} t
+       * @return {boolean}
+       */
+        var containsNearbyAlmostDuplicate = function (nums, k, t) {
+            // 创建一个大桶，其中最多有k个元素（小桶），当加入超过k个元素时，会删除第一个小桶（index最低的），类似滑动窗口
+            const map = new Map();
+            for (let i = 0; i < nums.length; i++) {
+                // 把遍历的这个数nums[i]放入对应的小桶
+                const m = getId(nums[i], t)
+
+                if (map.has(m)) {
+                    // 如果map大桶中有对应的小桶
+                    // 说明Math.abs(nums[i]-nums[j]) <= t
+                    return true
+                } else if (map.has(m + 1) && Math.abs(map.get(m + 1) - nums[i]) <= t) {
+                    // 如果在 m+1小桶内或者m-1小桶内（相邻），只要他们差值的绝对值小于t，那么也符合条件
+                    return true;
+                } else if (map.has(m - 1) && Math.abs(map.get(m - 1) - nums[i]) <= t) {
+                    return true;
+                }
+                map.set(m, nums[i]);
+                //如果桶内元素超过k了，每次都要删除一个元素
+                if (i >= k) {
+                    map.delete(getId(nums[i - k], t));
+                }
+            }
+            return false;
+        };
+
+        // 根据nums中的元素分配桶 ID
+        // 如果nums[i] 属于 [0,t] 那么会放入0号桶内（因为Math.floor）
+        // 如果nums[i] 属于 [t+1,2t+1] 那么会放入1号桶内（因为Math.floor）
+        // 如果nums[i] 属于 [2t+2,3t+2] 那么会放入2号桶内（因为Math.floor）
+        // 如果nums[i] 属于 [3t+3,4t+3] 那么会放入3号桶内（因为Math.floor）
+        // 每个桶里面放t+1个数组元素
+        // **且只要放进同一个桶，那么桶中的元素一定满足Math.abs(nums[i] - nums[j]) <= t
+        // 因为是按照大小的区间分桶的，例如0号桶中的元素都是nums[i] 属于 [0,t]
+
+        const getId = (num, t) => {
+            return Math.floor(num / (t + 1));
+        }
+
+    </script>
+</body>
+
+</html>
