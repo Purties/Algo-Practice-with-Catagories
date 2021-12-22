@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 442. 数组中重复的数据
+    给定一个整数数组 a，其中1 ≤ a[i] ≤ n （n为数组长度）, 其中有些元素出现两次而其他元素出现一次。
+    
+    找到所有出现两次的元素。
+    
+    你可以不用到任何额外空间并在O(n)时间复杂度内解决这个问题吗？
+    
+    示例：
+    
+    输入:
+    [4,3,2,7,8,2,3,1]
+    
+    输出:
+    [2,3]   -->
+    <script>
+        /**
+         * @param {number[]} nums
+         * @return {number[]}
+         */
+        // 根据 1 <= a[i] <= n，可得知nums中所有值可以其索引有对应关系
+        // nums[i]的正负可以判断值为 (i+1) 是否出现，如果出现则将 index 为 (i+1) 加上负号
+        // 情况1：当个nums中项只出现一次的时候，nums中所有值都会变为负数
+        //  nums = [1, 2, 3, 4, 5] => [-1, -2, -3, -4, -5]
+        // 情况2： 如果出现了一项重复，那么nums必定有一个数为证书，可以推演得到nums有多少个正数，代表重复了多少次
+        // 根据这个情况，当遍历到nums[i-1] 为负数的时候
+        // [4,3,2,7,8,2,3,1]
+        // [4,3,2,-7,8,2,3,1]
+        // [4,3,-2,-7,8,2,3,1]
+        // [4,-3,-2,-7,8,-2,-3,1]
+        // -2 -> index = 1 的位置已经是负数，加入res
+        // -3 -> index = 2 的位置已经是负数，加入res
+        // [-4,-3,-2,-7,8,-2,-3,1]
+        var findDuplicates = function (nums) {
+            let res = [];
+            if (!nums.length) return res;
+            for (let num of nums) {
+                // 因为 1 <= a[i] <= n 而 index 是 [0 n - 1]
+                // 这里abs(num) - 1 才能有对应关系
+                const abs = Math.abs(num)
+                if (nums[abs - 1] < 0) {
+                    res.push(abs); // 记录数的时候要把1加回去
+                } else {
+                    nums[abs - 1] *= -1;
+                }
+            }
+            return res;
+        };
+    </script>
+</body>
+
+</html>
