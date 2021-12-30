@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 296. 最佳的碰头地点
+有一队人（两人或以上）想要在一个地方碰面，他们希望能够最小化他们的总行走距离。
+
+给你一个 2D 网格，其中各个格子内的值要么是 0，要么是 1。
+
+1 表示某个人的家所处的位置。这里，我们将使用 曼哈顿距离 来计算，其中 distance(p1, p2) = |p2.x - p1.x| + |p2.y - p1.y|。
+
+示例：
+
+输入: 
+
+1 - 0 - 0 - 0 - 1
+|   |   |   |   |
+0 - 0 - 0 - 0 - 0
+|   |   |   |   |
+0 - 0 - 1 - 0 - 0
+
+输出: 6 
+
+解析: 给定的三个人分别住在(0,0)，(0,4) 和 (2,2):
+(0,2) 是一个最佳的碰面点，其总行走距离为 2 + 2 + 2 = 6，最小，因此返回 6。 -->
+    <script>
+        /**
+         * @param {number[][]} grid
+         * @return {number}
+         */
+        //  方法：把二维数组降维处理，因为距离采用 曼哈顿距离 来计算
+        // 我们只需要 x方向上距离最小 y方向上距离最小即可
+        // 假如有奇数个点
+        //  A       B     C     D         E
+        // ----------------------------------
+        //  meeting point在C即可因为 ABCDE行走的距离等于 B-D A-E的距离
+        // 假如有偶数个点
+        //  A       B     C  |   D        E   F
+        // ----------------------------------
+        // meetingpoint 在C和D之间任意一点即可，他们行走的距离是 C到D B到E A到F的总距离
+        // time O(m*n)
+        // space O(n)
+        var minTotalDistance = function (grid) {
+            // m是grid横向的长度 n是纵向的长度
+            let m = grid.length;
+            let n = grid[0].length;
+            let arr_m = [];
+            let arr_n = [];
+            // 一列列的遍历 保存i值（x坐标）保证了我们push进数组的横坐标是有顺序的
+            for (let i = 0; i < m; i++) {
+                for (let j = 0; j < n; j++) {
+                    if (grid[i][j] === 1) arr_m.push(i);
+                }
+            }
+            // 一行行的遍历 保存j值（y坐标）保证了我们push进数组的纵坐标是有顺序的
+            for (let j = 0; j < n; j++) {
+                for (let i = 0; i < m; i++) {
+                    if (grid[i][j] == 1) arr_n.push(j);
+                }
+            }
+            // 分别在两个x,y两个维度计算需要会和的距离
+            return calculateDistance(arr_m) + calculateDistance(arr_n);
+        };
+
+        const calculateDistance = (arr) => {
+            // 无论点的数量是奇数还是偶数 我们都计算arr[j--] - arr[i++]
+            let res = i = 0, j = arr.length - 1;
+            while (i < j) {
+                res += (arr[j--] - arr[i++]);
+            }
+            return res;
+        }
+
+        let arr = [[1, 0, 0, 0, 1], [0, 0, 0, 0, 0], [0, 0, 1, 0, 0]];
+        console.log(minTotalDistance(arr));
+    </script>
+</body>
+
+</html>

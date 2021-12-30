@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 169. 多数元素
+    给定一个大小为 n 的数组，找到其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。
+    你可以假设数组是非空的，并且给定的数组总是存在多数元素。
+
+    示例 1：
+    输入：[3,2,3]
+    输出：3
+
+    示例 2：
+    输入：[2,2,1,1,1,2,2]
+    输出：2 -->
+    <script>
+        /**
+         * @param {number[]} nums
+         * @return {number}
+         */
+        // [1, 2, 3, 3, 3]  num = 1 count = 1 res = 1
+        // [1, 2, 3, 3, 3]  num = 2 count = 0 res = 1
+        // [1, 2, 3, 3, 3]  num = 3 count = 1 res = 3
+        // [1, 2, 3, 3, 3]  num = 3 count = 2 res = 3
+        // [1, 2, 3, 3, 3]  num = 3 count = 3 res = 3
+        var majorityElement = function (nums) {
+            // 每找出一对不同元素，从数组中删除，直到数组为空
+            let count = res = 0;
+            for (let num of nums) {
+                // 只有在开始的时候 或者count被抵消时 count才为0
+                if (count === 0) {
+                    res = num;
+                }
+                // 如果 count != 0了 count-- 则抵消
+                if (num != res) {
+                    count--;
+                } else {
+                    count++;  // 如果count = 0 那么count ++ ，准备抵消
+                }
+            }
+            return res;
+        };        
+    </script>
+</body>
+
+</html>

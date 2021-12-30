@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 118. 杨辉三角
+    给定一个非负整数 numRows，生成「杨辉三角」的前 numRows 行。
+
+    在「杨辉三角」中，每个数是它左上方和右上方的数的和。
+    示例 1:
+
+    输入: numRows = 5
+    输出: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+    示例 2:
+
+    输入: numRows = 1
+    输出: [[1]] -->
+    <script>
+        /**
+        * @param {number} numRows
+        * @return {number[][]}
+        */
+        // i = 0 list [1] 不执行内层for
+        // i = 1 list [1, 1] 内层for同样不执行
+        // i = 2 list [1, 1 ,1]
+        var generate = function (numRows) {
+            let res = [];
+            let list = [];
+            for (let i = 0; i < numRows; i++) {
+                // 每次list都在开头位置添加一个1
+                list.unshift(1);
+                // j 在 [1, length -2]的范围内进行加法运算
+                // 因为我们不需要管list的index 0 和 length - 1位 他们都是 1
+                // 只需要在 [1, length -2]内做 list[j] + list[j+1]的加法
+                for (let j = 1; j < list.length - 1; j++) {
+                    list[j] = list[j] + list[j + 1];
+                }
+                // 这里需要浅拷贝list否则每次res push的是最后一次的list
+                res.push([...list])
+            }
+            return res;
+        };
+        console.log(generate(5));
+    </script>
+</body>
+
+</html>
