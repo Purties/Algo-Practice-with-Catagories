@@ -25,11 +25,17 @@
         /**
          * @param {number} n
          * @return {number[][]}
+         * time O(n) 总元素个数
+         * space O(n) 总元素个数
          */
 
-         没写完
         var generateMatrix = function (n) {
-            let res = new Array(n).fill(new Array(n));
+            //  new Array(n).fill(new Array(n)) 可以创建一个二维数组但是
+            // 每一行都是相同的地址
+            let res = new Array(n);
+            for (let i = 0; i < n; i++) {
+                res[i] = new Array(n);
+            }
             let left = 0;
             let top = 0;
             let right = n - 1;
@@ -39,9 +45,8 @@
                 for (let i = left; i <= right; i++) {
                     res[top][i] = num++;
                 }
-
                 top++;
-                for (let i = top; i < + bottom; i++) {
+                for (let i = top; i <= bottom; i++) {
                     res[i][right] = num++;
                 }
                 right--;
