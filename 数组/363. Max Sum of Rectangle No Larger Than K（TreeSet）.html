@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- 363. 矩形区域不超过 K 的最大数值和
+    给你一个 m x n 的矩阵 matrix 和一个整数 k ，找出并返回矩阵内部矩形区域的不超过 k 的最大数值和。
+
+    题目数据保证总会存在一个数值和不超过 k 的矩形区域。
+
+    示例 1：
+
+
+    输入：matrix = [[1,0,1],[0,-2,3]], k = 2
+    输出：2
+    解释：蓝色边框圈出来的矩形区域 [[0, 1], [-2, 3]] 的数值和是 2，且 2 是不超过 k 的最大数字（k = 2）。
+    示例 2：
+
+    输入：matrix = [[2,2,-1]], k = 3
+    输出：3 -->
+    <script>
+        /**
+       * @param {number[][]} matrix
+       * @param {number} k
+       * @return {number}
+       */
+
+        //    首先我们把问题拆分为
+        //  1. 如何找到一个和最大的长方形
+        //  https://www.youtube.com/watch?v=yCQN096CwWM 二维DP 简单易懂
+        // 我们以 列 来扫描这个二维数组 left是左指针
+        //  L -> 
+        //    R -> 
+        //  1 2 3 4 5 6
+        //  7 8 9 10 11 12
+
+        var maxSumSubmatrix = function (matrix, k) {
+            let [row, col, max] = [matrix.length, matrix[0].length, -Infinity];
+            for (let l = 0; l < col; l++) {
+                let rowSum = new Array(row).fill(0);
+                for (let r = l; r < col; r++) {
+                    for (let i = 0; i < row; i++) {
+                        rowSum[i] += matrix[i][r];
+                    }
+                    max = Math.max(max, getMax(rowSum, k)); //这里getMax送去给子函数
+                    if (max == k) return max;
+                }
+            }
+            return max == -Infinity ? -1 : max;
+            // 这里是子函数，用来求矩形不大于k的最大值
+            function getMax(rowSum) {
+                // 前面o(n)部分是判定最大子序和是否小于等于k,如果满足就没有必要再进行后面的o(n^2)部分了
+                let [max, curr] = [rowSum[0] > k ? -Infinity : rowSum[0], rowSum[0]];
+                for (let i = 1; i < rowSum.length; i++) {
+                    curr = Math.max(rowSum[i], rowSum[i] + curr);
+                    max = Math.max(curr, max);
+                }
+                if (max <= k) return max;
+                // 后面o(n^2)暴力枚举部分在最大子序和大于k时才有必要使用
+                //如果不用前面的最大子序和来优化，光用这里也是可以跑起来的,不过执行用时会变成300+
+                max = -Infinity;
+                for (let l = 0; l < rowSum.length; l++) {
+                    curr = 0;
+                    for (let r = l; r < rowSum.length; r++) {
+                        curr = rowSum[r] + curr;
+                        if (curr < k) max = Math.max(curr, max);
+                        if (curr == k) return max = k;
+                    }
+                }
+                return max;
+            };
+        };
+
+    </script>
+</body>
+
+</html>
