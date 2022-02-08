@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!--  37. 解数独
+    编写一个程序，通过填充空格来解决数独问题。
+
+    数独的解法需 遵循如下规则：
+
+    数字 1-9 在每一行只能出现一次。
+    数字 1-9 在每一列只能出现一次。
+    数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。（请参考示例图）
+    数独部分空格内已填入了数字，空白格用 '.' 表示。 -->
+    <script>
+        /**
+        * @param {character[][]} board
+        * @return {void} Do not return anything, modify board in-place instead.
+        */
+        var solveSudoku = function (board) {
+            if (!board || !board.length) return;
+            solve(board);
+
+            function solve(board) {
+                // 遍历所有元素
+                for (let i = 0; i < 9; i++) {
+                    for (let j = 0; j < 9; j++) {
+                        // 如果元素是 '.' 那我们需要添加数字
+                        if (board[i][j] == '.') {
+                            // 从1开始尝试到9
+                            for (let num = 1; num <= 9; num++) {
+                                // 判断数字是否合法
+                                if (isValid(board, i, j, `${num}`)) {
+                                    // 如果合法，将数字更改
+                                    board[i][j] = `${num}`;
+                                    // 继续向下判断
+                                    if (solve(board)) {
+                                        return false;
+                                    } else {
+                                        // 否则将这个数字改回去
+                                        board[i][j] = '.';
+                                    }
+                                }
+                            }
+                            // 执行到这里说明1-9都已经试过了，返回false
+                            return false
+                        }
+                    }
+                }
+                return true;
+
+                
+                function isValid(board, row, col, num) {
+                    for (let i = 0; i < 9; i++) {
+                        if (board[i][col] == num) return false;
+                        if (board[row][i] == num) return false;
+                        if (board[3 * Math.trunc(row / 3) + Math.trunc(i / 3)][3 * Math.trunc(col / 3) + Math.trunc(i / 3)] != "." && board[3 * Math.trunc(row / 3) + Math.trunc(i / 3)][3 * Math.trunc(col / 3) + Math.trunc(i / 3)] == num) return false;
+                    }
+                    return true;
+                }
+            }
+        };
+
+        let board = [["5", "3", ".", ".", "7", ".", ".", ".", "."], ["6", ".", ".", "1", "9", "5", ".", ".", "."], [".", "9", "8", ".", ".", ".", ".", "6", "."], ["8", ".", ".", ".", "6", ".", ".", ".", "3"], ["4", ".", ".", "8", ".", "3", ".", ".", "1"], ["7", ".", ".", ".", "2", ".", ".", ".", "6"], [".", "6", ".", ".", ".", ".", "2", "8", "."], [".", ".", ".", "4", "1", "9", ".", ".", "5"], [".", ".", ".", ".", "8", ".", ".", "7", "9"]];
+
+        console.log(solveSudoku(board));
+
+
+
+    </script>
+</body>
+
+</html>
