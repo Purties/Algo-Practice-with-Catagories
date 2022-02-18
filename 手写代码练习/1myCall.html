@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // myCall做了什么？
+        // 改变this指向并且调用了函数
+        // 什么可以直接改变this指向？ -> obj.func
+        // 为了让所有函数都能调用myCall，我们在Function的圆形上添加myCall方法
+        Function.prototype.myCall = function (o, ...params) {
+            // o 是我们即将把this重新指向的新对象
+            // ...params是我们传递的参数
+
+            // 当myCall的第一个参数是null或者undefined，this将指向window
+            if (o === null || o === undefined) {
+                o = window;
+            }
+            // 当传入的是基本类型的数值时，即o不是Object, Array, Function，那么this讲指向基本类型的包装对象
+            if (typeof o !== 'function' && typeof p !== 'object') {
+                o = Object(o);
+            }
+            // 创建Symbol s1 当作属性名（防止和其他属性名重复），准备给对象o添加属性
+            const s1 = Symbol('s1');
+            o[s1] = this; // 保存this
+            // console.log(o);
+            // o[s1]保存了this,并且让他来调用函数，res保存结果
+            const res = o[s1](...params);
+            // 删除o[s1] 这个属性防止污染
+            // delete o[s1];
+            return res;
+        }
+
+        function fn(a, b) {
+            console.log('fn.this', this);
+            console.log(('a + b =', a + b));
+            return null;
+        }
+
+        const obj = {
+            name: 'aaa'
+        }
+
+        // fn.myCall(obj, 1, 2);
+        fn.myCall("obj", 1, 2);
+    </script>
+</body>
+
+</html>

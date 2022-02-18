@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // call和apply的区别是
+        // apply的第二个参数是所有传递参数组成的数组, args是数组
+        Function.prototype.myApply = function (o, args) {
+            // 当o是undefined或者null，this是window
+            if (o === undefined || o === null) {
+                o = window;
+            }
+            // 当o是基本数据类型，this是基本类型的包装类
+            if (typeof o !== 'function' || typeof o !== 'object') {
+                o = Object(o);
+            }
+
+            const s1 = Symbol('s1');
+            o[s1] = this;
+            const res = o[s1](...args);
+            delete o[s1];
+            return res;
+        }
+
+
+        function fn(a, b) {
+            console.log('fn.this', this);
+            console.log(('a + b =', a + b));
+            return null;
+        }
+
+        const obj = {
+            name: 'aaa',
+            age: 132432
+        }
+
+        fn.myApply(obj, [1, 2, 3, 4, 5]);
+    </script>
+</body>
+
+</html>
