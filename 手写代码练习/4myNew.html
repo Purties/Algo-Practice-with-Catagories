@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 分析new做了什么？
+      //  - 会返回一个新对象   let o = {}
+      //  - 把函数的this指向new创建的对象
+      //  - 把new创建的对象的原型链指向当前函数的原型对象
+      //  - 特殊情况：如果return的是一个对象类型值 Array, Object, Function
+      //          那么实例化后返回的就是这个对象，而不是new的对象
+
+      function Student(name, age, sex) {
+        this.name = name;
+        this.age = age;
+        this.sex = sex;
+        return function () {};
+      }
+      Student.prototype.sayHi = function () {
+        console.log("sayHi");
+      };
+
+      function myNew(fn, ...args) {
+        // console.log(fn);
+        // console.log(args);
+
+        // 1创建一个新对象
+        let o = {};
+
+        // 2调用构造函数，并且改变this，保存返回值
+        let result = fn.apply(o, args);
+
+        // 3修复原型
+        o.__proto__ = fn.prototype;
+
+        // 考虑函数调用的时候有没有返回值
+        if (
+          (typeof result === "object" && result !== null) ||
+          typeof result === "function"
+        ) {
+          return result;
+        }
+        return o;
+      }
+
+      let s1 = myNew(Student, "b", 19, "female");
+      console.log(s1);
+    </script>
+  </body>
+</html>

@@ -15,23 +15,29 @@
       // Bind做了什么？
       // 改变函数的this指向，但是不调用
       Function.prototype.myBind = function () {
-          return function () {
-              
-          }
-      }
+        // 保存this，这里this是我们需要保存的原函数
+        let _this = this;
+        // 把所有参数转换为数组
+        let args = Array.from(arguments);
+        return function () {
+          // 第一个参数是我们需要改变的this指向
+          return _this.apply(args[0], args.slice(1));
+        };
+      };
 
       function fn(a, b) {
-        console.log('fn.this', this)
-        console.log(('a + b =', a + b))
-        return null
+        console.log("fn.this", this);
+        console.log("a + b =", a + b);
+        return null;
       }
 
       const obj = {
-        name: 'aaa',
+        name: "aaa",
         age: 132432,
-      }
+      };
 
-      fn.myApply(obj, [1, 2, 3, 4, 5])
+      let newFn = fn.myBind(obj, 1, 2, 3, 4, 5);
+      newFn();
     </script>
   </body>
 </html>
